@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "685656080356",
+    "project_id": "mibocata-4858c",
+    "storage_bucket": "mibocata-4858c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685656080356:android:182ad0a000c19e07c191f1",
+        "android_client_info": {
+          "package_name": "com.example.mibocadillo2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBkyIFwuxYe10hlMf0zxS9x7ucAxKQDBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
