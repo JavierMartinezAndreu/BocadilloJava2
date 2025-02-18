@@ -1,5 +1,6 @@
 package com.example.mibocadillo2.data.api
 
+import ApiUsuario
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -13,7 +14,7 @@ object RetrofitConnect {
             .build()
     }
 
-    val api: ApiUsuario by lazy {
+    val apiUsuario: ApiUsuario by lazy {
         retrofit.create(ApiUsuario::class.java)
     }
 }

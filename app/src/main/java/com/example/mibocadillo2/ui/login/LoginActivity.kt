@@ -75,11 +75,12 @@ class LoginActivity : AppCompatActivity() {
     private suspend fun obtenerUsuario(uid: String): Usuario? {
         return withContext(Dispatchers.IO) {
             try {
-                val usuario = RetrofitConnect.api.getUsuarioByUid(uid)
-                usuario
+                RetrofitConnect.apiUsuario.getUsuarioByUid(uid)
             } catch (e: Exception) {
+                e.printStackTrace()
                 null
             }
         }
     }
+
 }
