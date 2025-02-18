@@ -1,10 +1,11 @@
 package com.example.mibocadillo2.data.model
 
 data class Pedido(
-    val id: String = "",
-    val usuarioId: String = "",
-    val bocadilloId: String = "",
-    val fecha: String = "", // Formato: "yyyy-MM-dd"
-    val hora: String = "",  // Formato: "HH:mm"
-    val estado: String = "pendiente" // "pendiente" o "retirado"
+    val id: Int? = null,
+    val usuario: String,
+    val precio: Double,
+    val bocadillo: String,
+    val fecha: String,
+    val hora: String,
+    val retirado: Boolean
 )
