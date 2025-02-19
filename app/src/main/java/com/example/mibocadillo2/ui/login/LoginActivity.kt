@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mibocadillo2.databinding.ActivityLoginBinding
 import com.example.mibocadillo2.data.api.RetrofitConnect
 import com.example.mibocadillo2.data.model.Usuario
+import com.example.mibocadillo2.ui.alumno.AlumnoActivity
 import com.example.mibocadillo2.ui.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
@@ -23,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//BINDING
+        //BINDING
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -51,10 +52,11 @@ class LoginActivity : AppCompatActivity() {
                                         else -> "invitado"
                                     }
                                     if (rol == "ALUMNO") {
-                                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                        val intent = Intent(this@LoginActivity, AlumnoActivity::class.java)
                                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                         startActivity(intent)
-                                    } else if (rol == "ADMINISTRADOR") {
+                                    }
+                                    else if (rol == "ADMINISTRADOR") {
                                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                         startActivity(intent)
