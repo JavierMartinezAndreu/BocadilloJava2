@@ -17,4 +17,8 @@ object RetrofitConnect {
     val apiUsuario: ApiUsuario by lazy {
         retrofit.create(ApiUsuario::class.java)
     }
+
+    val apiBocadillo: ApiBocadillo by lazy {
+        retrofit.create(ApiBocadillo::class.java)
+    }
 }
