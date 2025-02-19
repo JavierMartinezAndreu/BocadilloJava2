@@ -2,11 +2,10 @@ package com.example.mibocadillo2.data.model
 
 data class Bocadillo(
     val id: Int,
-    val tipo: Boolean,
-    val descripcion: String,
-    val listaAlergenos: List<String>,
+    val tipo: String,  // "frío" o "caliente"
+    val nombre: String,
+    val ingredientes: List<String>,
+    val alergenos: List<String>,
     val precio: Double,
-    val opcionDescuento: List<String>,
-    val dia: String,
-    val caliente: Boolean
+    val dia: String // Día de la semana en el que se ofrece
 )

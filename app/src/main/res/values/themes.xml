@@ -1,8 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme -->
     <style name="Base.Theme.MiBocadillo2" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Color de la barra de estado (Status Bar) -->
+        <item name="android:statusBarColor">#10421C</item>
+        <item name="android:windowLightStatusBar">false</item> <!-- Texto de la barra en blanco -->
+
+        <!-- Color de la barra de navegación (Navigation Bar) -->
+        <item name="android:navigationBarColor">#10421C</item>
+        <item name="android:windowLightNavigationBar">false</item> <!-- Texto en blanco -->
+
+        <!-- Color de fondo general -->
+        <item name="android:colorBackground">#10421C</item>
     </style>
 
     <style name="Theme.MiBocadillo2" parent="Base.Theme.MiBocadillo2" />
