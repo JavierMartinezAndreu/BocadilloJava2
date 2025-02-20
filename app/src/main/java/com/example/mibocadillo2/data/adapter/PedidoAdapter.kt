@@ -29,7 +29,7 @@ class PedidoAdapter(private val listaPedidos: List<Pedido>) : RecyclerView.Adapt
         fun bind(pedido: Pedido) {
             binding.textViewNombreBocadillo.text = pedido.bocadillo
             binding.textViewFecha.text = pedido.fecha
-            binding.textViewEstado.text = pedido.retirado.toString()
+            binding.textViewEstado.text = if (pedido.retirado) "Retirado" else "Pendiente"
         }
     }
 }
