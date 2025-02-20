@@ -38,38 +38,67 @@ class ReservarFragment : Fragment() {
         _binding = FragmentReservarBinding.inflate(inflater, container, false)
         pedidoViewModel = ViewModelProvider(this).get(PedidoViewModel::class.java)
 
-        // Configurar RecyclerView con callback para crear pedido
+        // Configurar RecyclerView con el adapter que incluye el callback de click
         val adapter = BocadilloAdapter(listaBocadillos) { selectedBocadillo: Bocadillo ->
-            // Extraer datos para el pedido
+            // Extraer datos para el Pedido
             val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
             val currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
             val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
-
-            // Crear el Pedido incluyendo el campo tipo (tomado del Bocadillo)
             val nuevoPedido = Pedido(
                 id = null,
                 usuario = currentUserId,
                 precio = selectedBocadillo.precio,
                 bocadillo = selectedBocadillo.nombre,
-                tipo = selectedBocadillo.tipo,  // Se incluye el tipo del Bocadillo
+                tipo = selectedBocadillo.tipo,  // Se toma del Bocadillo
                 fecha = currentDate,
                 hora = currentTime,
                 retirado = false
             )
-
-            // Crear el Pedido mediante el ViewModel
-            pedidoViewModel.createPedido(nuevoPedido) { success ->
-                if (success) {
-                    Toast.makeText(requireContext(), "Pedido creado", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(requireContext(), "Error al crear el pedido", Toast.LENGTH_SHORT).show()
+            // Verificar si ya existe un Pedido para hoy del usuario
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    val response = RetrofitConnect.apiPedido.getPedidos() // Función suspend
+                    if (response.isSuccessful) {
+                        val pedidosMap = response.body() ?: emptyMap()
+                        val existingEntry = pedidosMap.entries.find { entry ->
+                            entry.value.usuario == currentUserId && entry.value.fecha == currentDate
+                        }
+                        withContext(Dispatchers.Main) {
+                            if (existingEntry != null) {
+                                // Si ya existe, actualizamos el Pedido usando el key existente
+                                pedidoViewModel.updatePedido(existingEntry.key, nuevoPedido) { success ->
+                                    if (success)
+                                        Toast.makeText(requireContext(), "Pedido actualizado", Toast.LENGTH_SHORT).show()
+                                    else
+                                        Toast.makeText(requireContext(), "Error al actualizar el pedido", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                // Si no existe, creamos un nuevo Pedido
+                                pedidoViewModel.createPedido(nuevoPedido) { success ->
+                                    if (success)
+                                        Toast.makeText(requireContext(), "Pedido creado", Toast.LENGTH_SHORT).show()
+                                    else
+                                        Toast.makeText(requireContext(), "Error al crear el pedido", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), "Error al verificar pedido", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
+
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
-        // Obtener los bocadillos del día actual
+        // Obtener los Bocadillos del día actual desde Firebase
         obtenerBocadillosDelDia(adapter)
 
         return binding.root

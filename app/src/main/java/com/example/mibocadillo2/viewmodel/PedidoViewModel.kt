@@ -17,4 +17,15 @@ class PedidoViewModel : ViewModel() {
             }
         }
     }
+
+    fun updatePedido(pedidoKey: String, pedido: Pedido, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitConnect.apiPedido.updatePedido(pedidoKey, pedido)
+                onResult(response.isSuccessful)
+            } catch (e: Exception) {
+                onResult(false)
+            }
+        }
+    }
 }
