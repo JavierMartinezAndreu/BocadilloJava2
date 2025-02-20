@@ -38,18 +38,20 @@ class ReservarFragment : Fragment() {
         _binding = FragmentReservarBinding.inflate(inflater, container, false)
         pedidoViewModel = ViewModelProvider(this).get(PedidoViewModel::class.java)
 
-        // Configurar RecyclerView con el adapter que incluye el callback
+        // Configurar RecyclerView con callback para crear pedido
         val adapter = BocadilloAdapter(listaBocadillos) { selectedBocadillo: Bocadillo ->
-            // Al hacer click, se crea un Pedido usando la información del Bocadillo
+            // Extraer datos para el pedido
             val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
             val currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
             val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
 
+            // Crear el Pedido incluyendo el campo tipo (tomado del Bocadillo)
             val nuevoPedido = Pedido(
                 id = null,
                 usuario = currentUserId,
                 precio = selectedBocadillo.precio,
                 bocadillo = selectedBocadillo.nombre,
+                tipo = selectedBocadillo.tipo,  // Se incluye el tipo del Bocadillo
                 fecha = currentDate,
                 hora = currentTime,
                 retirado = false
@@ -77,7 +79,7 @@ class ReservarFragment : Fragment() {
         val diaActual = obtenerDiaActual()
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val response = RetrofitConnect.apiBocadillo.getBocadillos().awaitResponse()
+                val response = RetrofitConnect.apiBocadillo.getBocadillos().awaitResponse<Map<String, Bocadillo>>()
                 if (response.isSuccessful) {
                     val bocadillosMap = response.body() ?: emptyMap()
                     val bocadillosList = bocadillosMap.values.filter { it.dia == diaActual }

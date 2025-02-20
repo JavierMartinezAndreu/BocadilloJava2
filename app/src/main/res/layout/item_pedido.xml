@@ -1,34 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="4dp">
+    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="#F4A111">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Nombre del bocadillo (pedido) -->
         <TextView
             android:id="@+id/textViewNombreBocadillo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bocadillo 1"
-            android:textSize="16sp"/>
+            android:text="Bocadillo Pedido"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@android:color/black" />
 
+        <!-- Tipo de bocadillo (no definido en el modelo, se muestra N/D) -->
+        <TextView
+            android:id="@+id/textViewTipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TIPO: N/D"
+            android:textSize="14sp"
+            android:textColor="@android:color/black" />
+
+        <!-- Precio del pedido -->
+        <TextView
+            android:id="@+id/textViewPrecio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PRECIO: 0.00€"
+            android:textSize="14sp"
+            android:textColor="@android:color/black" />
+
+        <!-- Fecha del pedido -->
         <TextView
             android:id="@+id/textViewFecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2025-02-18"/>
+            android:text="Fecha Pedido"
+            android:textSize="14sp"
+            android:textColor="@android:color/black" />
 
+        <!-- Estado del pedido (Retirado / Pendiente) -->
         <TextView
             android:id="@+id/textViewEstado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Completado"/>
+            android:text="Estado Pedido"
+            android:textSize="14sp"
+            android:textColor="@android:color/black" />
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

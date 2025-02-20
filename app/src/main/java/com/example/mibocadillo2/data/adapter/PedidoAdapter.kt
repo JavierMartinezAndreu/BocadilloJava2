@@ -8,28 +8,24 @@ import com.example.mibocadillo2.databinding.ItemPedidoBinding
 
 class PedidoAdapter(private val listaPedidos: List<Pedido>) : RecyclerView.Adapter<PedidoAdapter.PedidoViewHolder>() {
 
+    inner class PedidoViewHolder(private val binding: ItemPedidoBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(pedido: Pedido) {
+            binding.textViewNombreBocadillo.text = pedido.bocadillo
+            binding.textViewTipo.text = "TIPO: ${pedido.tipo}"
+            binding.textViewPrecio.text = "PRECIO: %.2f€".format(pedido.precio)
+            binding.textViewFecha.text = pedido.fecha
+            binding.textViewEstado.text = if (pedido.retirado) "Retirado" else "Pendiente"
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PedidoViewHolder {
-        // Inflar el layout con ViewBinding
         val binding = ItemPedidoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PedidoViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PedidoViewHolder, position: Int) {
-        val pedido = listaPedidos[position]
-        holder.bind(pedido)
+        holder.bind(listaPedidos[position])
     }
 
-    override fun getItemCount(): Int {
-        return listaPedidos.size
-    }
-
-    class PedidoViewHolder(private val binding: ItemPedidoBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        // Utilizar el binding para acceder a las vistas
-        fun bind(pedido: Pedido) {
-            binding.textViewNombreBocadillo.text = pedido.bocadillo
-            binding.textViewFecha.text = pedido.fecha
-            binding.textViewEstado.text = if (pedido.retirado) "Retirado" else "Pendiente"
-        }
-    }
+    override fun getItemCount(): Int = listaPedidos.size
 }
