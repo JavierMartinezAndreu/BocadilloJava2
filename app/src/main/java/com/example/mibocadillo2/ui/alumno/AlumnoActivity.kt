@@ -1,7 +1,10 @@
 package com.example.mibocadillo2.ui.alumno
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -16,17 +19,38 @@ class AlumnoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Inicializamos el binding
         binding = ActivityAlumnoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Obtén el NavHostFragment y el NavController desde el FragmentContainerView
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        // Configurar el Toolbar como ActionBar
+        setSupportActionBar(binding.topAppBar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // Configurar NavController
+        val navHostFragment = supportFragmentManager.findFragmentById(binding.navHostFragment.id) as NavHostFragment
         navController = navHostFragment.navController
 
-        // Configuramos el BottomNavigationView con el NavController
+        // Configurar BottomNavigationView con el NavController
         val bottomNavView: BottomNavigationView = binding.bottomNavigationView
         NavigationUI.setupWithNavController(bottomNavView, navController)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.top_app_bar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_profile -> {
+                // Al pulsar el perfil, se reemplaza el contenido por ProfileFragment
+                supportFragmentManager.commit {
+                    replace(android.R.id.content, ProfileFragment())
+                    addToBackStack(null)
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
