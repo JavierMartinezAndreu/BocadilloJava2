@@ -28,6 +28,11 @@
             android:name=".ui.alumno.AlumnoActivity"
             android:exported="true" />
 
+        <!-- AlumnoActivity para los usuarios con rol ALUMNO -->
+        <activity
+            android:name=".ui.admin.AdminActivity"
+            android:exported="true" />
+
         <!-- MainActivity sigue registrado pero sin intent-filter -->
         <activity
             android:name=".ui.main.MainActivity"
