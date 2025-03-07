@@ -1,50 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
     app:cardBackgroundColor="#F4A111">
 
-    <LinearLayout
+    <!-- Usamos un FrameLayout para superponer la imagen de tipo en la esquina -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/nombreBocadillo"
-            android:layout_width="wrap_content"
+        <!-- Contenido principal: la info del bocadillo en un LinearLayout -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bocadillo Caprese"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@android:color/black" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/alergenos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ALÉRGENOS: Lácteos"
-            android:textSize="14sp"
-            android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/nombreBocadillo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bocadillo Caprese"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@android:color/black" />
 
-        <TextView
-            android:id="@+id/tipo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TIPO: frío"
-            android:textSize="14sp"
-            android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/alergenos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ALÉRGENOS: Lácteos"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
 
-        <TextView
-            android:id="@+id/precio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PRECIO: 3,50€"
-            android:textSize="14sp"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tipo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TIPO: frío"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
 
+            <TextView
+                android:id="@+id/precio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PRECIO: 3,50€"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+        <!-- ImageView en la esquina inferior derecha -->
+        <ImageView
+            android:id="@+id/iconTipo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/tipo_bocadillo"
+            android:src="@drawable/ic_frio"
+        />
+    </FrameLayout>
 </androidx.cardview.widget.CardView>

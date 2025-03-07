@@ -21,6 +21,12 @@
         android:name="com.example.mibocadillo2.ui.alumno.CalendarioFragment"
         android:label="Calendario"
         tools:layout="@layout/fragment_calendario" />
+
+    <!-- Nuevo destino para el perfil -->
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.mibocadillo2.ui.alumno.ProfileFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_profile" />
+
 </navigation>
-
-

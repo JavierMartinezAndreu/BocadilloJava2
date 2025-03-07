@@ -16,10 +16,12 @@ import com.example.mibocadillo2.data.model.Pedido
 import com.example.mibocadillo2.databinding.FragmentReservarBinding
 import com.example.mibocadillo2.viewmodel.PedidoViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
+import com.google.zxing.BarcodeFormat
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.awaitResponse
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,7 +42,7 @@ class ReservarFragment : Fragment() {
 
         // Configurar RecyclerView con el adapter que incluye el callback de click
         val adapter = BocadilloAdapter(listaBocadillos) { selectedBocadillo: Bocadillo ->
-            // Extraer datos para el Pedido
+            // Extraer datos para crear un Pedido
             val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
             val currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
             val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
@@ -49,7 +51,7 @@ class ReservarFragment : Fragment() {
                 usuario = currentUserId,
                 precio = selectedBocadillo.precio,
                 bocadillo = selectedBocadillo.nombre,
-                tipo = selectedBocadillo.tipo,  // Se toma del Bocadillo
+                tipo = selectedBocadillo.tipo,
                 fecha = currentDate,
                 hora = currentTime,
                 retirado = false
@@ -57,7 +59,7 @@ class ReservarFragment : Fragment() {
             // Verificar si ya existe un Pedido para hoy del usuario
             lifecycleScope.launch(Dispatchers.IO) {
                 try {
-                    val response = RetrofitConnect.apiPedido.getPedidos() // Función suspend
+                    val response = RetrofitConnect.apiPedido.getPedidos() // función suspend
                     if (response.isSuccessful) {
                         val pedidosMap = response.body() ?: emptyMap()
                         val existingEntry = pedidosMap.entries.find { entry ->
@@ -65,20 +67,23 @@ class ReservarFragment : Fragment() {
                         }
                         withContext(Dispatchers.Main) {
                             if (existingEntry != null) {
-                                // Si ya existe, actualizamos el Pedido usando el key existente
+                                // Si ya existe, actualizamos el pedido con la nueva información y generamos el QR
                                 pedidoViewModel.updatePedido(existingEntry.key, nuevoPedido) { success ->
-                                    if (success)
-                                        Toast.makeText(requireContext(), "Pedido actualizado", Toast.LENGTH_SHORT).show()
-                                    else
+                                    if (success) {
+                                        generarQr(nuevoPedido)
+                                    } else {
                                         Toast.makeText(requireContext(), "Error al actualizar el pedido", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             } else {
-                                // Si no existe, creamos un nuevo Pedido
-                                pedidoViewModel.createPedido(nuevoPedido) { success ->
-                                    if (success)
+                                // Si no existe, creamos un nuevo Pedido y luego generamos el QR
+                                pedidoViewModel.createPedido(nuevoPedido) { success, createdPedido ->
+                                    if (success && createdPedido != null) {
                                         Toast.makeText(requireContext(), "Pedido creado", Toast.LENGTH_SHORT).show()
-                                    else
+                                        generarQr(createdPedido)
+                                    } else {
                                         Toast.makeText(requireContext(), "Error al crear el pedido", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             }
                         }
@@ -101,6 +106,9 @@ class ReservarFragment : Fragment() {
         // Obtener los Bocadillos del día actual desde Firebase
         obtenerBocadillosDelDia(adapter)
 
+        // Al cargar el fragmento, se verifica si el usuario ya tiene un pedido para hoy y se muestra el QR si es el caso.
+        mostrarQrSiPedidoExistente()
+
         return binding.root
     }
 
@@ -108,7 +116,7 @@ class ReservarFragment : Fragment() {
         val diaActual = obtenerDiaActual()
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val response = RetrofitConnect.apiBocadillo.getBocadillos().awaitResponse<Map<String, Bocadillo>>()
+                val response = RetrofitConnect.apiBocadillo.getBocadillos()
                 if (response.isSuccessful) {
                     val bocadillosMap = response.body() ?: emptyMap()
                     val bocadillosList = bocadillosMap.values.filter { it.dia == diaActual }
@@ -127,6 +135,43 @@ class ReservarFragment : Fragment() {
                     Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun mostrarQrSiPedidoExistente() {
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
+        val currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val response = RetrofitConnect.apiPedido.getPedidos()
+                if (response.isSuccessful) {
+                    val pedidosMap = response.body() ?: emptyMap()
+                    val existingEntry = pedidosMap.entries.find { entry ->
+                        entry.value.usuario == currentUserId && entry.value.fecha == currentDate
+                    }
+                    withContext(Dispatchers.Main) {
+                        if (existingEntry != null) {
+                            generarQr(existingEntry.value)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                // Aquí podrías registrar el error o notificar
+            }
+        }
+    }
+
+    private fun generarQr(pedido: Pedido) {
+        val json = Gson().toJson(pedido)
+        try {
+            val barcodeEncoder = BarcodeEncoder()
+            val bitmap = barcodeEncoder.encodeBitmap(json, BarcodeFormat.QR_CODE, 400, 400)
+            binding.qrImageView.visibility = View.VISIBLE
+            binding.qrImageView.setImageBitmap(bitmap)
+            Toast.makeText(requireContext(), "Código QR generado", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "Error generando el código QR", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -15,51 +15,48 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <!-- Contenedor de la información del usuario (izquierda) -->
+        <!-- Contenedor de la información del bocadillo -->
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textViewNombre"
+                android:id="@+id/textViewNombreAdmin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nombre:"
+                android:text="Nombre: Bocadillo X"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"/>
-
+                android:textColor="@android:color/black" />
             <TextView
-                android:id="@+id/textViewApellidos"
+                android:id="@+id/textViewTipoAdmin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Apellidos:"
+                android:text="Tipo: frío"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
-                android:layout_marginTop="4dp"/>
-
+                android:layout_marginTop="4dp" />
             <TextView
-                android:id="@+id/textViewCurso"
+                android:id="@+id/textViewPrecioAdmin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Curso:"
+                android:text="Precio: 2.50€"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
-                android:layout_marginTop="4dp"/>
-
+                android:layout_marginTop="4dp" />
             <TextView
-                android:id="@+id/textViewCorreo"
+                android:id="@+id/textViewDiaAdmin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Correo:"
+                android:text="Día: Lunes"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp" />
         </LinearLayout>
 
-        <!-- Contenedor de los botones (derecha) -->
+        <!-- Contenedor de los botones de acción -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -67,24 +64,24 @@
             android:gravity="center_vertical">
 
             <ImageView
-                android:id="@+id/btnEdit"
+                android:id="@+id/btnEditBocadilloAdmin"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="4dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_boton_editar"
-                android:contentDescription="@string/edit"/>
+                android:contentDescription="@string/edit" />
 
             <ImageView
-                android:id="@+id/btnDelete"
+                android:id="@+id/btnDeleteBocadilloAdmin"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="4dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_borrar"
-                android:contentDescription="@string/delete"/>
+                android:contentDescription="@string/delete" />
         </LinearLayout>
 
     </LinearLayout>

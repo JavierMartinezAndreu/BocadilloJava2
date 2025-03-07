@@ -1,7 +1,7 @@
 package com.example.mibocadillo2.data.model
 
 data class Pedido(
-    val id: Int? = null,
+    var id: String? = null,
     val usuario: String,
     val precio: Double,
     val bocadillo: String,

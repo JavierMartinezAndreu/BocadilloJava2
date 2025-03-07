@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/etNombre"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:minHeight="56dp"
+            android:padding="8dp"
+            android:hint="Nombre" />
+
+        <EditText
+            android:id="@+id/etApellidos"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:hint="Apellidos"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/etCurso"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:hint="Curso"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/etCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:hint="Correo"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -66,6 +66,13 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
     implementation("com.google.firebase:firebase-auth")
 
+    implementation ("androidx.biometric:biometric:1.2.0-alpha03")
+
+    implementation ("androidx.security:security-crypto:1.1.0-alpha03")
+
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation ("com.google.code.gson:gson:2.9.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

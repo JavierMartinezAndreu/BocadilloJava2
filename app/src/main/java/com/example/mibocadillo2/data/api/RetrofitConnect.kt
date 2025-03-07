@@ -1,6 +1,5 @@
 package com.example.mibocadillo2.data.api
 
-import ApiUsuario
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

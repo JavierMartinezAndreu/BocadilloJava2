@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Mi Bocadillo 2</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Borrar</string>
+    <string name="logo">Logo</string>
+    <string name="profile">Perfil</string>
+    <string name="tipo_bocadillo">Tipo de Bocadillo</string>
 </resources>

@@ -7,7 +7,32 @@
     android:layout_height="match_parent"
     tools:context=".ui.alumno.AlumnoActivity">
 
-    <!-- FragmentContainerView para la navegación -->
+    <!-- ImageView para el logo en el extremo izquierdo -->
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="72dp"
+        android:layout_height="69dp"
+        android:contentDescription="@string/logo"
+        android:padding="8dp"
+        android:src="@drawable/logo_mibocata2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Toolbar ya definido arriba -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="#10421c"
+        android:title=""
+        android:titleTextColor="@android:color/white"
+        app:menu="@menu/top_app_bar_menu"
+        app:layout_constraintStart_toEndOf="@id/logoImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/logoImageView" />
+
+    <!-- Cambiar aquí: en vez de top_toTopOf="parent", usa top_toBottomOf="@id/topAppBar" -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -15,10 +40,11 @@
         android:layout_height="0dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_alumno"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topAppBar"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
     <!-- BottomNavigationView con fondo amarillo -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -2,7 +2,7 @@ package com.example.mibocadillo2.data.model
 
 
 data class Usuario(
-    val id: String,
+    var id: String,
     val nombre: String,
     val apellidos: String,
     val correo: String,
